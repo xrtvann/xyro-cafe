@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#3b332f",
+                    "on-surface": "#ede0d9",
+                    "on-secondary-fixed": "#1f1b14",
+                    "surface-container-low": "#211a16",
+                    "surface-container-high": "#302924",
+                    "background": "#18120e",
+                    "inverse-primary": "#8d4f00",
+                    "secondary-container": "#4c463d",
+                    "on-background": "#ede0d9",
+                    "on-secondary-fixed-variant": "#4c463d",
+                    "secondary-fixed": "#ebe1d5",
+                    "outline": "#a18d7d",
+                    "secondary-fixed-dim": "#cec5ba",
+                    "primary-fixed-dim": "#ffb876",
+                    "on-tertiary-fixed-variant": "#5a4232",
+                    "error": "#ffb4ab",
+                    "secondary": "#cec5ba",
+                    "error-container": "#93000a",
+                    "on-primary-fixed-variant": "#6b3b00",
+                    "on-error-container": "#ffdad6",
+                    "surface-bright": "#3f3833",
+                    "primary-container": "#d98324",
+                    "surface-container": "#251e1a",
+                    "primary": "#ffb876",
+                    "outline-variant": "#544436",
+                    "inverse-on-surface": "#362f2a",
+                    "tertiary-fixed-dim": "#e2c0ab",
+                    "surface-tint": "#ffb876",
+                    "on-tertiary": "#412c1d",
+                    "on-tertiary-fixed": "#2a170a",
+                    "on-secondary": "#353028",
+                    "surface-container-highest": "#3b332f",
+                    "on-primary": "#4b2800",
+                    "tertiary-fixed": "#ffdcc6",
+                    "surface-dim": "#18120e",
+                    "on-secondary-container": "#bdb4a9",
+                    "surface-container-lowest": "#130d09",
+                    "on-tertiary-container": "#402b1c",
+                    "inverse-surface": "#ede0d9",
+                    "tertiary": "#e2c0ab",
+                    "surface": "#18120e",
+                    "tertiary-container": "#b0917e",
+                    "on-primary-container": "#4a2700",
+                    "on-surface-variant": "#d9c2b1",
+                    "on-error": "#690005",
+                    "primary-fixed": "#ffdcc0",
+                    "on-primary-fixed": "#2d1600"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "margin-desktop": "40px",
+                    "margin-mobile": "16px",
+                    "unit": "8px",
+                    "container-max": "1280px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "h3": ["Plus Jakarta Sans"],
+                    "h1": ["Plus Jakarta Sans"],
+                    "h2": ["Plus Jakarta Sans"],
+                    "label-sm": ["Inter"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "h3": ["24px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "h1": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "h2": ["32px", {"lineHeight": "1.3", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "label-sm": ["14px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(24, 18, 14, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        .glass-card {
+            background: rgba(48, 41, 36, 0.4);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease-in-out;
+        }
+        .glass-card:hover {
+            border-color: rgba(217, 131, 36, 0.5);
+            transform: translateY(-4px);
+        }
+        .glow-button {
+            box-shadow: 0 0 20px rgba(217, 131, 36, 0.3);
+        }
+        .glow-button:hover {
+            box-shadow: 0 0 30px rgba(217, 131, 36, 0.5);
+        }
+        body {
+            background-color: #18120e;
+            color: #ede0d9;
+        }
+    </style>
+</head>
+<body class="font-body-md antialiased">
+<!-- TopNavBar -->
+<nav class="sticky top-0 w-full z-50 bg-black/40 backdrop-blur-[20px] border-b border-white/10 shadow-[0px_20px_40px_rgba(0,0,0,0.3)]">
+<div class="flex justify-between items-center max-w-7xl mx-auto px-8 h-20">
+<div class="text-2xl font-black tracking-tighter text-[#D98324]">Xyro Cafe</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="font-['Plus_Jakarta_Sans'] font-semibold tracking-wide text-sm uppercase text-[#D98324] border-b-2 border-[#D98324] pb-1 hover:text-[#D98324] transition-all duration-300 ease-in-out active:scale-95 cursor-pointer" href="#">Home<br/></a>
+<a class="font-['Plus_Jakarta_Sans'] font-semibold tracking-wide text-sm uppercase text-white/80 hover:text-[#D98324] transition-all duration-300 ease-in-out active:scale-95 cursor-pointer" href="#">Story</a>
+<a class="font-['Plus_Jakarta_Sans'] font-semibold tracking-wide text-sm uppercase text-white/80 hover:text-[#D98324] transition-all duration-300 ease-in-out active:scale-95 cursor-pointer" href="#">Menu</a>
+<a class="font-['Plus_Jakarta_Sans'] font-semibold tracking-wide text-sm uppercase text-white/80 hover:text-[#D98324] transition-all duration-300 ease-in-out active:scale-95 cursor-pointer" href="#">FAQ</a>
+</div>
+<div class="flex items-center">
+<div class="flex items-center space-x-6">
+<button class="px-5 py-2 rounded-full glass-panel text-sm font-semibold text-white/90 border border-white/10 hover:bg-white/10 transition-all duration-300">
+        Login / Register
+    </button>
+<button class="relative flex items-center justify-center active:scale-95 transition-transform cursor-pointer">
+<span class="material-symbols-outlined text-[#D98324] text-2xl">shopping_cart</span>
+<span class="absolute -top-2 -right-2 bg-[#D98324] text-black text-[10px] font-black w-5 h-5 flex items-center justify-center rounded-full border-2 border-black/20">
+            3
+        </span>
+</button>
+</div>
+</div>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="relative h-[870px] flex items-center justify-center overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover brightness-[0.4]" data-alt="A moody and cinematic wide shot of a luxury cafe interior. Soft, warm sunlight filters through a haze of steam rising from a polished chrome espresso machine. The background is a sophisticated blur of dark wood textures and golden amber lighting, creating a premium and cozy glassmorphic atmosphere with high-end digital clarity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD79NEAPxpOm38iw9R6OY5kI6nElF-n1FYSRLwg9lxU0tN36upD21C_qo5kcPQX6XinTmuq5TzxvSsp1_HqPkqQWV7U3ZERFIXGIjxkBvmD9h2Q8D3LArCuzPQvK0wXbtSEDCB_mm-2JXT990pWQjddZdKR3RddXmi6VRudk540xEEGMcJClr_l7IBPgFjCPhDuL32L8ke7-wIfgeXEK1f0GAXSS95Bqa2cWF9B5turlFPmb7TibGk6Pfv-cjaXDcDbkJoUc-Eby1C3"/>
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-background/20 to-background"></div>
+</div>
+<div class="relative z-10 text-center max-w-4xl px-gutter">
+<h1 class="text-on-surface mb-6 text-4xl md:text-6xl">Elevate Your Coffee Ritual</h1>
+<p class="font-body-lg text-on-surface-variant mb-10 max-w-2xl mx-auto">
+                Discover the art of the perfect brew. From ethically sourced beans to precision-crafted pastries, Xyro Cafe brings a premium digital-first coffee experience to your doorstep.
+            </p>
+<button class="glow-button px-10 py-4 bg-primary-container text-on-primary-container rounded-full font-h3 hover:scale-105 transition-transform">
+                Order Now
+            </button>
+</div>
+</section>
+<!-- Menu Catalog Section -->
+<section class="py-24 max-w-7xl mx-auto px-8">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+<div>
+<h2 class="font-h2 text-primary mb-2 text-h2">Signature Menu</h2>
+<p class="text-on-surface-variant">Handcrafted flavors delivered with precision.</p>
+</div>
+<div class="flex flex-wrap gap-3">
+<button class="px-6 py-2 rounded-full glass-panel text-primary border-primary/40 text-sm font-semibold">All</button>
+<button class="px-6 py-2 rounded-full glass-panel text-on-surface-variant hover:text-primary transition-colors text-sm font-semibold">Coffee</button>
+<button class="px-6 py-2 rounded-full glass-panel text-on-surface-variant hover:text-primary transition-colors text-sm font-semibold">Non-Coffee</button>
+<button class="px-6 py-2 rounded-full glass-panel text-on-surface-variant hover:text-primary transition-colors text-sm font-semibold">Pastry</button>
+</div>
+</div>
+<!-- Menu Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Product 1 -->
+<div class="glass-card rounded-2xl overflow-hidden flex flex-col">
+<div class="h-64 relative overflow-hidden">
+<img class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" data-alt="A macro close-up of a perfectly layered latte with intricate leaf latte art on top. The porcelain cup sits on a dark stone surface with soft amber lighting accentuating the creamy texture and rich brown coffee tones. Professional food photography style with elegant glassmorphic lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8DYtH_-HbL5iMjFVnUdmObVKSGlFXkNFCIy9Hnh0hMXfLZuQQ-jbtJ85PqjmC0fCArfmYkNtkFLAvH4-Ry2KnRK8gmfD__NgDh-5OU4bwLDjjX2gH81PBSu98L3QA93tbWg_0p_nDAYcn85sOGSvpmQm0_vqCPpgsLbxkYWiDkr-tYxgDsn1Mxguwi0V1HbwiSBiv9_NUpXcbw_5vjKgBgB_pfe-_JHJ4VcBcnzKUmbFZQVTLOzoW-3Y767wYOZnmJnRwV81Jnx6D"/>
+<div class="absolute top-4 left-4 glass-panel px-3 py-1 rounded-full text-[12px] font-bold text-primary uppercase tracking-wider">Popular</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2"><h3 class="font-h3 text-on-surface">Midnight Velvet Latte</h3>
+<div class="text-right">
+<span class="text-primary font-bold block">$6.50</span>
+<span class="text-on-surface-variant text-[12px] font-medium">Stock: 12</span>
+</div></div>
+<p class="text-on-surface-variant text-sm mb-6 flex-grow">A deep espresso blend with activated charcoal and vanilla bean silk.</p>
+<button class="w-full py-3 bg-primary-container/20 border border-primary/30 text-primary rounded-xl font-semibold hover:bg-primary-container hover:text-on-primary-container transition-all">
+                        Add to Cart
+                    </button>
+</div>
+</div>
+<!-- Product 2 (Out of Stock) -->
+<div class="glass-card rounded-2xl overflow-hidden flex flex-col opacity-80">
+<div class="h-64 relative overflow-hidden grayscale-[0.5]">
+<img class="w-full h-full object-cover" data-alt="A gourmet artisan donut drizzled with rich chocolate glaze and sprinkled with gold leaf. The background is a dark, moody bakery setting with bokeh lighting effects and hints of steam. The overall aesthetic is premium, indulgent, and modern, reflecting a high-end cafe menu." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAB9tZV7YupQLRvJYOYQIsHqglR-i6uEGJnW2rtoCMsrFQGmKF1pqXTdHG-y3Y2-mncF0xFFnOQ1bK7nx07LPzjQKxwJW6QBvQv-jIlTJH_p4JlMn2P0STerCLn4pDSrfib9nuPQgCLj89cAlDuJlCtykdhAMI2loMiiuD1hiBlk9V8XyM0qltfi7V8l9ctobamgyo_jc7qr_zhBothSzBQ8mV5EP0hju_ibp70hsr_2q6lUzn68quj_huKkBx4Vpeuv0TvfPWOsoCB"/>
+<div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+<span class="bg-error-container text-on-error-container px-4 py-1 rounded-full font-bold text-sm">Stok Habis</span>
+</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2"><h3 class="font-h3 text-on-surface">Gold-Leaf Brioche</h3>
+<div class="text-right">
+<span class="text-on-surface-variant font-bold line-through block">$8.00</span>
+<span class="text-error text-[12px] font-medium">Stock: 0</span>
+</div></div>
+<p class="text-on-surface-variant text-sm mb-6 flex-grow">Hand-kneaded brioche infused with saffron and topped with 24k gold flakes.</p>
+<button class="w-full py-3 bg-neutral-700 text-on-surface/50 rounded-xl font-semibold cursor-not-allowed opacity-50 pointer-events-none" disabled="">
+    Out of Stock
+</button>
+</div>
+</div>
+<!-- Product 3 -->
+<div class="glass-card rounded-2xl overflow-hidden flex flex-col">
+<div class="h-64 relative overflow-hidden">
+<img class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" data-alt="A refreshing cold brew coffee served in a crystal glass filled with large geometric ice cubes. Condensation drops cling to the glass, reflecting the warm amber ambient light of a modern cafe. The scene is crisp, clean, and technologically precise, emphasizing premium quality and freshness." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCU3gd8lTMr759R6BorIdU7c3ZxREeuBrDjS9-YwCPZQGQMJCVU-AZvMhNJlRPFG0Sby3Mxu2X8K01-OLp2ah8ujNCjIGEg9x9i1CP-vrRJMKwbtu0e6aOtfvKWCRRoJ0DfXZAa8Y4mCnZxiYihwOT0jQ78gVQDVjhmlDLKwK9_2oBXZvpaMXad2_74_Yb47ORfIcANbji8Co1gviR3Z_aDxFwRGPF7d3y85GmawhradL9Soa1YW9eDm-AAFlSuRNvXtmsyvYWQ8weu"/>
+<div class="absolute top-4 left-4 glass-panel px-3 py-1 rounded-full text-[12px] font-bold text-primary uppercase tracking-wider">Cold Brew</div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<div class="flex justify-between items-start mb-2"><h3 class="font-h3 text-on-surface">Amber Quartz Cold</h3>
+<div class="text-right">
+<span class="text-primary font-bold block">$5.25</span>
+<span class="text-on-surface-variant text-[12px] font-medium">Stock: 8</span>
+</div></div>
+<p class="text-on-surface-variant text-sm mb-6 flex-grow">18-hour steep cold brew with notes of nectarine and toasted almond.</p>
+<button class="w-full py-3 bg-primary-container/20 border border-primary/30 text-primary rounded-xl font-semibold hover:bg-primary-container hover:text-on-primary-container transition-all">
+                        Add to Cart
+                    </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Why Xyro? Section -->
+<section class="py-24 bg-surface-container-lowest">
+<div class="max-w-7xl mx-auto px-8">
+<div class="text-center mb-16">
+<h2 class="text-on-surface mb-4 text-2xl font-bold">Why Choose Xyro?</h2>
+<div class="h-1 w-20 bg-primary mx-auto rounded-full"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+<div class="text-center p-8 glass-panel rounded-3xl">
+<div class="w-16 h-16 bg-primary-container/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<h3 class="font-h3 text-on-surface mb-4">Exceptional Quality</h3>
+<p class="text-on-surface-variant">We partner with single-estate farms to ensure every bean meets our rigorous 90+ score standard.</p>
+</div>
+<div class="text-center p-8 glass-panel rounded-3xl">
+<div class="w-16 h-16 bg-primary-container/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="bolt">bolt</span>
+</div>
+<h3 class="font-h3 text-on-surface mb-4">Swift Delivery</h3>
+<p class="text-on-surface-variant">Our smart routing system ensures your coffee arrives at the peak of its flavor window, every time.</p>
+</div>
+<div class="text-center p-8 glass-panel rounded-3xl">
+<div class="w-16 h-16 bg-primary-container/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="payments">payments</span>
+</div>
+<h3 class="font-h3 text-on-surface mb-4">Seamless Payment</h3>
+<p class="text-on-surface-variant">One-tap checkout with crypto, digital wallets, or traditional cards for a frictionless experience.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- FAQ Section -->
+<section class="py-24 max-w-4xl mx-auto px-8">
+<h2 class="text-on-surface mb-12 text-center text-2xl font-bold">Frequently Asked Questions</h2>
+<div class="space-y-4">
+<div class="glass-card p-6 rounded-2xl">
+<button class="w-full flex justify-between items-center text-left">
+<span class="font-semibold text-on-surface">How do you ensure bean freshness?</span>
+<span class="material-symbols-outlined text-primary" data-icon="expand_more">expand_more</span>
+</button>
+<div class="mt-4 text-on-surface-variant text-sm border-t border-white/5 pt-4">
+                    Our beans are roasted in small batches daily. Each bag is nitro-sealed within 30 minutes of roasting to lock in the volatile aromatic compounds.
+                </div>
+</div>
+<div class="glass-card p-6 rounded-2xl">
+<button class="w-full flex justify-between items-center text-left">
+<span class="font-semibold text-on-surface">Where do your beans come from?</span>
+<span class="material-symbols-outlined text-primary" data-icon="expand_more">expand_more</span>
+</button>
+<div class="hidden mt-4 text-on-surface-variant text-sm border-t border-white/5 pt-4">
+                    Yes! You can choose the frequency, roast type, and quantity through your Xyro dashboard at any time.
+                </div>
+</div>
+<div class="glass-card p-6 rounded-2xl">
+<button class="w-full flex justify-between items-center text-left">
+<span class="font-semibold text-on-surface">What is your delivery range?</span>
+<span class="material-symbols-outlined text-primary" data-icon="expand_more">expand_more</span>
+</button>
+<div class="hidden mt-4 text-on-surface-variant text-sm border-t border-white/5 pt-4">
+                    We currently deliver within a 25-mile radius of our flagship locations, ensuring your drinks stay at the perfect temperature.
+                </div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-[#0A0A0A] w-full py-16 px-8 border-t border-white/5">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 max-w-7xl mx-auto">
+<div>
+<div class="text-xl font-bold text-[#D98324] mb-4">Xyro Cafe</div>
+<p class="font-['Plus_Jakarta_Sans'] text-sm text-neutral-400">© 2024 Xyro Cafe. Premium Coffee Experiences.</p>
+</div>
+<div class="flex flex-col space-y-4">
+<h4 class="text-white font-semibold">Social</h4>
+<a class="font-['Plus_Jakarta_Sans'] text-sm text-neutral-400 hover:text-white transition-colors opacity-90 hover:opacity-100" href="#">Instagram</a>
+<a class="font-['Plus_Jakarta_Sans'] text-sm text-neutral-400 hover:text-white transition-colors opacity-90 hover:opacity-100" href="#">Twitter</a>
+</div>
+<div class="flex flex-col space-y-4">
+<h4 class="text-white font-semibold">Support</h4>
+<a class="font-['Plus_Jakarta_Sans'] text-sm text-neutral-400 hover:text-white transition-colors opacity-90 hover:opacity-100" href="#">Contact Us</a>
+<a class="font-['Plus_Jakarta_Sans'] text-sm text-neutral-400 hover:text-white transition-colors opacity-90 hover:opacity-100" href="#">FAQ</a>
+</div>
+<div class="flex flex-col space-y-4">
+<h4 class="text-white font-semibold">Legal</h4>
+<a class="font-['Plus_Jakarta_Sans'] text-sm text-neutral-400 hover:text-white transition-colors opacity-90 hover:opacity-100" href="#">Terms of Service</a>
+<a class="font-['Plus_Jakarta_Sans'] text-sm text-neutral-400 hover:text-white transition-colors opacity-90 hover:opacity-100" href="#">Privacy Policy</a>
+</div>
+</div>
+</footer>
+</body></html>
