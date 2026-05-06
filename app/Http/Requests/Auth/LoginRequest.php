@@ -42,13 +42,49 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        $supabaseUrl = config('services.supabase.url', env('SUPABASE_URL'));
+        $supabaseKey = config('services.supabase.key', env('SUPABASE_KEY'));
+
+        if (!$supabaseUrl || !$supabaseKey) {
+            throw ValidationException::withMessages([
+                'email' => 'Supabase credentials are not configured.',
+            ]);
+        }
+
+        $response = \Illuminate\Support\Facades\Http::withHeaders([
+            'apikey' => $supabaseKey,
+            'Authorization' => 'Bearer ' . $supabaseKey,
+        ])->post("{$supabaseUrl}/auth/v1/token?grant_type=password", [
+            'email' => $this->email,
+            'password' => $this->password,
+        ]);
+
+        if ($response->failed()) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                'email' => $response->json('error_description', trans('auth.failed')),
             ]);
         }
+
+        $authData = $response->json();
+        $userId = $authData['user']['id'] ?? null;
+
+        if (!$userId) {
+             throw ValidationException::withMessages([
+                'email' => 'Failed to retrieve user data from Supabase.',
+            ]);
+        }
+
+        $profile = \App\Models\Profile::find($userId);
+
+        if (!$profile) {
+             throw ValidationException::withMessages([
+                'email' => 'User profile not found in database.',
+            ]);
+        }
+
+        Auth::login($profile, $this->boolean('remember'));
 
         RateLimiter::clear($this->throttleKey());
     }

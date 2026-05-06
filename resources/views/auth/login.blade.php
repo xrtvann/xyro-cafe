@@ -46,6 +46,12 @@
                     {{ __('Forgot your password?') }}
                 </a>
             @endif
+
+            @if (Route::has('register'))
+                <a class="text-center underline text-sm text-secondary hover:text-on-surface rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:ring-offset-background transition-colors" href="{{ route('register') }}">
+                    {{ __('Don\'t have an account? Register here') }}
+                </a>
+            @endif
         </div>
     </form>
 </x-guest-layout>

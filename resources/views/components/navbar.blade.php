@@ -15,9 +15,53 @@
         <div class="flex items-center">
             <div class="flex items-center space-x-6">
                 @auth
-                    <a href="{{ url('/dashboard') }}" class="px-5 py-2 rounded-full glass-panel text-sm font-semibold text-white/90 hover:bg-white/10 transition-all duration-300">
-                        Dashboard
-                    </a>
+                    <!-- User Dropdown Menu -->
+                    <div x-data="{ open: false }" class="relative">
+                        <button @click="open = !open" @click.away="open = false" class="flex items-center justify-center w-10 h-10 rounded-full glass-panel text-white/90 hover:bg-white/10 hover:text-primary transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-primary/50">
+                            <span class="material-symbols-outlined text-[22px]">person</span>
+                        </button>
+                        
+                        <!-- Dropdown Content -->
+                        <div x-show="open" 
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 scale-95 translate-y-[-10px]"
+                             x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                             x-transition:leave="transition ease-in duration-150"
+                             x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                             x-transition:leave-end="opacity-0 scale-95 translate-y-[-10px]"
+                             class="absolute right-0 mt-3 w-56 rounded-2xl bg-surface/95 backdrop-blur-xl border border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.4)] py-2 z-50"
+                             style="display: none;">
+                            
+                            <!-- User Info -->
+                            <div class="px-4 py-3 border-b border-white/10 mb-2">
+                                <p class="text-sm font-bold text-on-surface truncate">{{ Auth::user()->full_name }}</p>
+                                <p class="text-xs text-secondary truncate capitalize mt-0.5">{{ Auth::user()->role }}</p>
+                            </div>
+
+                            <a href="{{ route('dashboard') }}" class="block px-4 py-2.5 text-sm text-on-surface/80 hover:bg-white/5 hover:text-primary transition-colors flex items-center">
+                                <span class="material-symbols-outlined text-[18px] mr-3">dashboard</span>
+                                Dashboard
+                            </a>
+                            
+                            <a href="{{ route('profile.edit') }}" class="block px-4 py-2.5 text-sm text-on-surface/80 hover:bg-white/5 hover:text-primary transition-colors flex items-center">
+                                <span class="material-symbols-outlined text-[18px] mr-3">account_circle</span>
+                                Profile
+                            </a>
+
+                            <a href="#" class="block px-4 py-2.5 text-sm text-on-surface/80 hover:bg-white/5 hover:text-primary transition-colors flex items-center">
+                                <span class="material-symbols-outlined text-[18px] mr-3">settings</span>
+                                Settings
+                            </a>
+
+                            <form method="POST" action="{{ route('logout') }}" class="mt-2 border-t border-white/10 pt-2">
+                                @csrf
+                                <button type="submit" class="w-full text-left block px-4 py-2.5 text-sm text-error/90 hover:bg-error/10 hover:text-error transition-colors flex items-center">
+                                    <span class="material-symbols-outlined text-[18px] mr-3">logout</span>
+                                    Logout
+                                </button>
+                            </form>
+                        </div>
+                    </div>
                 @else
                     <a href="{{ route('login') }}" class="px-5 py-2 rounded-full glass-panel text-sm font-semibold text-white/90 hover:bg-white/10 transition-all duration-300">
                         Login / Register

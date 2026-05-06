@@ -10,9 +10,9 @@
 
         <!-- Name -->
         <div>
-            <label for="name" class="block font-medium text-sm text-secondary">{{ __('Name') }}</label>
-            <input id="name" class="block mt-2 w-full bg-white/[0.04] border border-white/10 rounded-lg text-on-surface placeholder-secondary/50 focus:border-primary focus:ring focus:ring-primary/30 focus:bg-white/[0.08] transition-colors shadow-sm" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" placeholder="Full Name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2 text-error" />
+            <label for="full_name" class="block font-medium text-sm text-secondary">{{ __('Name') }}</label>
+            <input id="full_name" class="block mt-2 w-full bg-white/[0.04] border border-white/10 rounded-lg text-on-surface placeholder-secondary/50 focus:border-primary focus:ring focus:ring-primary/30 focus:bg-white/[0.08] transition-colors shadow-sm" type="text" name="full_name" :value="old('full_name')" required autofocus autocomplete="name" placeholder="Full Name" />
+            <x-input-error :messages="$errors->get('full_name')" class="mt-2 text-error" />
         </div>
 
         <!-- Email Address -->
