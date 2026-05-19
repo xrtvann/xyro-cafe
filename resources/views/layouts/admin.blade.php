@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
 <head>
     <meta charset="utf-8">
@@ -87,9 +87,9 @@
                     </li>
                     @if(Auth::user()->role === 'owner')
                     <li>
-                        <a href="#" class="flex items-center justify-between px-3 py-2 rounded-lg text-white/60 hover:bg-white/5 hover:text-white transition-colors">
+                        <a href="{{ route('admin.menu.index') }}" class="flex items-center justify-between px-3 py-2 rounded-lg {{ request()->routeIs('admin.menu.index') ? 'bg-white/10 text-white font-medium' : 'text-white/60 hover:bg-white/5 hover:text-white transition-colors' }}">
                             <div class="flex items-center">
-                                <span class="material-symbols-outlined text-[18px] mr-3 text-white/50">menu_book</span>
+                                <span class="material-symbols-outlined text-[18px] mr-3 {{ request()->routeIs('admin.menu.index') ? 'text-white' : 'text-white/50' }}">menu_book</span>
                                 <span class="text-[13px]">Menu Catalog</span>
                             </div>
                         </a>
