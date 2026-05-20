@@ -87,9 +87,9 @@
                     </li>
                     @if(Auth::user()->role === 'owner')
                     <li>
-                        <a href="{{ route('admin.menu.index') }}" class="flex items-center justify-between px-3 py-2 rounded-lg {{ request()->routeIs('admin.menu.index') ? 'bg-white/10 text-white font-medium' : 'text-white/60 hover:bg-white/5 hover:text-white transition-colors' }}">
+                        <a href="{{ route('admin.menu.index') }}" class="flex items-center justify-between px-3 py-2 rounded-lg {{ request()->routeIs('admin.menu.*') ? 'bg-white/10 text-white font-medium' : 'text-white/60 hover:bg-white/5 hover:text-white transition-colors' }}">
                             <div class="flex items-center">
-                                <span class="material-symbols-outlined text-[18px] mr-3 {{ request()->routeIs('admin.menu.index') ? 'text-white' : 'text-white/50' }}">menu_book</span>
+                                <span class="material-symbols-outlined text-[18px] mr-3 {{ request()->routeIs('admin.menu.*') ? 'text-white' : 'text-white/50' }}">menu_book</span>
                                 <span class="text-[13px]">Menu Catalog</span>
                             </div>
                         </a>
@@ -165,6 +165,49 @@
             @yield('content')
         </div>
     </main>
+
+    <!-- Global Toast Notification -->
+    <div x-data="{ 
+            show: false, 
+            message: '', 
+            type: 'success',
+            init() {
+                @if(session('success'))
+                    this.message = '{{ session('success') }}';
+                    this.type = 'success';
+                    this.show = true;
+                    setTimeout(() => this.show = false, 4000);
+                @endif
+                
+                @if(session('error'))
+                    this.message = '{{ session('error') }}';
+                    this.type = 'error';
+                    this.show = true;
+                    setTimeout(() => this.show = false, 4000);
+                @endif
+            }
+         }"
+         x-show="show"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0 transform translate-x-8"
+         x-transition:enter-end="opacity-100 transform translate-x-0"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100 transform translate-x-0"
+         x-transition:leave-end="opacity-0 transform translate-x-8"
+         style="display: none;"
+         class="fixed top-8 right-8 z-50 min-w-[320px] p-4 rounded-xl backdrop-blur-xl border shadow-2xl flex items-start"
+         :class="{
+             'bg-emerald-500/20 border-emerald-500/30 text-emerald-400': type === 'success',
+             'bg-red-500/20 border-red-500/30 text-red-400': type === 'error'
+         }">
+        <div class="flex items-center space-x-3 flex-1">
+            <span class="material-symbols-outlined text-[24px]" x-text="type === 'success' ? 'check_circle' : 'error'"></span>
+            <span class="text-sm font-medium text-white" x-text="message"></span>
+        </div>
+        <button @click="show = false" class="text-white/50 hover:text-white transition-colors ml-4 focus:outline-none shrink-0">
+            <span class="material-symbols-outlined text-[20px]">close</span>
+        </button>
+    </div>
 
     <style>
         /* Hide scrollbar for Chrome, Safari and Opera */

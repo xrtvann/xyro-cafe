@@ -3,13 +3,25 @@
 @section('header_title', 'Menu Catalog')
 
 @section('content')
-<!-- Alpine.js component for view toggle -->
-<div x-data="{ viewMode: 'table' }" class="pb-10 space-y-6">
+<!-- Alpine.js component for view toggle & delete modal -->
+<div x-data="{ 
+    viewMode: 'table',
+    deleteModalOpen: false, 
+    deleteUrl: '', 
+    deleteProductName: '', 
+    isPermanent: false, 
+    openDeleteModal(url, name, permanent) { 
+        this.deleteUrl = url; 
+        this.deleteProductName = name; 
+        this.isPermanent = permanent; 
+        this.deleteModalOpen = true; 
+    } 
+}" class="pb-10 space-y-6 relative">
     
     <!-- Top Action Bar -->
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-            <h2 class="text-2xl font-bold text-white tracking-tight">Product Catalog</h2>
+            <h2 class="text-2xl font-bold text-white tracking-tight">Menu Catalog</h2>
             <p class="text-white/60 text-sm mt-1">Manage your cafe's menu offerings, prices, and stock.</p>
         </div>
         
@@ -71,6 +83,7 @@
                     <option value="" class="text-black">All Status</option>
                     <option value="active" class="text-black" {{ request('status') === 'active' ? 'selected' : '' }}>Active</option>
                     <option value="draft" class="text-black" {{ request('status') === 'draft' ? 'selected' : '' }}>Draft</option>
+                    <option value="trash" class="text-black" {{ request('status') === 'trash' ? 'selected' : '' }}>Trash / Archived</option>
                 </select>
             </div>
             
@@ -82,15 +95,6 @@
             @endif
         </form>
     </div>
-
-    <!-- Alert for success messages -->
-    @if (session('success'))
-        <div class="p-4 rounded-xl bg-emerald-400/10 border border-emerald-400/20 flex items-start">
-            <span class="material-symbols-outlined text-emerald-400 mr-3 text-[20px]">check_circle</span>
-            <p class="text-sm font-medium text-emerald-400">{{ session('success') }}</p>
-        </div>
-    @endif
-
     <!-- TABLE VIEW -->
     <div x-show="viewMode === 'table'" style="display: none;" class="bg-white/5 border border-white/10 rounded-2xl overflow-hidden backdrop-blur-sm relative">
         <div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-50 pointer-events-none"></div>
@@ -149,7 +153,12 @@
                                 </div>
                             </td>
                             <td class="px-6 py-4">
-                                @if($product->is_active)
+                                @if($product->trashed())
+                                    <span class="flex items-center space-x-1.5 text-xs font-medium text-error">
+                                        <div class="w-1.5 h-1.5 rounded-full bg-error"></div>
+                                        <span>Deleted</span>
+                                    </span>
+                                @elseif($product->is_active)
                                     <span class="flex items-center space-x-1.5 text-xs font-medium text-emerald-400">
                                         <div class="w-1.5 h-1.5 rounded-full bg-emerald-400"></div>
                                         <span>Active</span>
@@ -162,12 +171,28 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4 text-right">
-                                <button class="p-2 text-white/40 hover:text-primary transition-colors rounded-lg hover:bg-primary/10">
-                                    <span class="material-symbols-outlined text-[20px]">edit</span>
-                                </button>
-                                <button class="p-2 text-white/40 hover:text-error transition-colors rounded-lg hover:bg-error/10">
-                                    <span class="material-symbols-outlined text-[20px]">delete</span>
-                                </button>
+                                @if($product->trashed())
+                                    <div class="flex items-center justify-end space-x-2">
+                                        <form action="{{ route('admin.menu.restore', $product->slug) }}" method="POST" class="inline">
+                                            @csrf
+                                            <button type="submit" class="p-2 text-white/40 hover:text-emerald-400 transition-colors rounded-lg hover:bg-emerald-400/10" title="Restore">
+                                                <span class="material-symbols-outlined text-[20px]">restore</span>
+                                            </button>
+                                        </form>
+                                        <button @click="openDeleteModal('{{ route('admin.menu.forceDelete', $product->slug) }}', '{{ addslashes($product->name) }}', true)" type="button" class="p-2 text-white/40 hover:text-error transition-colors rounded-lg hover:bg-error/10" title="Permanent Delete">
+                                            <span class="material-symbols-outlined text-[20px]">delete_forever</span>
+                                        </button>
+                                    </div>
+                                @else
+                                    <div class="flex items-center justify-end space-x-2">
+                                        <a href="{{ route('admin.menu.edit', $product) }}" class="p-2 text-white/40 hover:text-primary transition-colors rounded-lg hover:bg-primary/10" title="Edit">
+                                            <span class="material-symbols-outlined text-[20px]">edit</span>
+                                        </a>
+                                        <button @click="openDeleteModal('{{ route('admin.menu.destroy', $product) }}', '{{ addslashes($product->name) }}', false)" type="button" class="p-2 text-white/40 hover:text-error transition-colors rounded-lg hover:bg-error/10" title="Delete">
+                                            <span class="material-symbols-outlined text-[20px]">delete</span>
+                                        </button>
+                                    </div>
+                                @endif
                             </td>
                         </tr>
                     @empty
@@ -237,12 +262,24 @@
 
                     <!-- Hover ActionsOverlay -->
                     <div class="absolute inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center space-x-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <button class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary hover:text-black transition-colors" title="Edit Product">
-                            <span class="material-symbols-outlined text-[20px]">edit</span>
-                        </button>
-                        <button class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-error hover:text-white transition-colors" title="Delete Product">
-                            <span class="material-symbols-outlined text-[20px]">delete</span>
-                        </button>
+                        @if($product->trashed())
+                            <form action="{{ route('admin.menu.restore', $product->slug) }}" method="POST" class="inline">
+                                @csrf
+                                <button type="submit" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-emerald-400 hover:text-black transition-colors" title="Restore Product">
+                                    <span class="material-symbols-outlined text-[20px]">restore</span>
+                                </button>
+                            </form>
+                            <button @click="openDeleteModal('{{ route('admin.menu.forceDelete', $product->slug) }}', '{{ addslashes($product->name) }}', true)" type="button" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-error hover:text-white transition-colors" title="Permanent Delete">
+                                <span class="material-symbols-outlined text-[20px]">delete_forever</span>
+                            </button>
+                        @else
+                            <a href="{{ route('admin.menu.edit', $product) }}" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-primary hover:text-black transition-colors" title="Edit Product">
+                                <span class="material-symbols-outlined text-[20px]">edit</span>
+                            </a>
+                            <button @click="openDeleteModal('{{ route('admin.menu.destroy', $product) }}', '{{ addslashes($product->name) }}', false)" type="button" class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-error hover:text-white transition-colors" title="Delete Product">
+                                <span class="material-symbols-outlined text-[20px]">delete</span>
+                            </button>
+                        @endif
                     </div>
                 </div>
             @empty
@@ -264,5 +301,61 @@
         </div>
     @endif
 
+    <!-- Global Delete Modal -->
+    <div x-show="deleteModalOpen" style="display: none;" class="fixed inset-0 z-[100] flex items-center justify-center">
+        <!-- Backdrop -->
+        <div x-show="deleteModalOpen" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             class="absolute inset-0 bg-black/60 backdrop-blur-sm" 
+             @click="deleteModalOpen = false"></div>
+        
+        <!-- Modal Content -->
+        <div x-show="deleteModalOpen" 
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 transform scale-95 translate-y-4"
+             x-transition:enter-end="opacity-100 transform scale-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 transform scale-100 translate-y-0"
+             x-transition:leave-end="opacity-0 transform scale-95 translate-y-4"
+             class="relative bg-[#1a1a1a] border border-white/10 rounded-2xl p-6 w-full max-w-md shadow-2xl overflow-hidden mx-4">
+            
+            <div class="absolute inset-0 bg-gradient-to-br from-error/10 to-transparent opacity-50 pointer-events-none"></div>
+            
+            <div class="relative z-10">
+                <div class="flex items-center space-x-4 mb-5">
+                    <div class="w-12 h-12 rounded-full bg-error/20 flex items-center justify-center text-error shrink-0">
+                        <span class="material-symbols-outlined" x-text="isPermanent ? 'delete_forever' : 'delete'"></span>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold text-white" x-text="isPermanent ? 'Permanent Delete' : 'Move to Trash'"></h3>
+                        <p class="text-sm text-white/60 mt-1">Are you sure you want to delete <span class="font-bold text-white" x-text="deleteProductName"></span>?</p>
+                    </div>
+                </div>
+                
+                <p class="text-xs text-error/80 bg-error/10 p-3 rounded-lg border border-error/20 mb-6" x-show="isPermanent">
+                    <span class="font-bold block mb-1">Warning!</span> This action cannot be undone. The product and its image will be permanently removed from the server.
+                </p>
+                <p class="text-xs text-white/50 bg-white/5 p-3 rounded-lg mb-6" x-show="!isPermanent">
+                    You can restore this item later from the Trash if needed.
+                </p>
+
+                <div class="flex justify-end space-x-3">
+                    <button type="button" @click="deleteModalOpen = false" class="px-4 py-2.5 text-sm font-medium text-white/70 hover:text-white bg-white/5 hover:bg-white/10 rounded-xl transition-colors">Cancel</button>
+                    <form :action="deleteUrl" method="POST" class="inline m-0">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="px-4 py-2.5 text-sm font-bold text-white bg-error hover:bg-error/90 rounded-xl transition-colors shadow-[0_0_15px_rgba(239,68,68,0.3)]">
+                            <span x-text="isPermanent ? 'Yes, Delete Permanently' : 'Yes, Move to Trash'"></span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
