@@ -19,7 +19,7 @@
                 <p class="text-white/60 text-sm leading-relaxed mb-6">Here is what's happening at Xyro Cafe today. Your POS system and online orders are running smoothly.</p>
                 <div class="flex space-x-3">
                     <button class="px-4 py-2 bg-primary text-black text-sm font-semibold rounded-lg hover:bg-primary/90 transition-colors shadow-[0_0_15px_rgba(var(--color-primary),0.4)]">View Reports</button>
-                    <button class="px-4 py-2 bg-white/10 text-white text-sm font-semibold rounded-lg hover:bg-white/20 transition-colors border border-white/5">Manage Menu</button>
+                    <a href="{{ route('admin.menu.create') }}" class="px-4 py-2 bg-white/10 text-white text-sm font-semibold rounded-lg hover:bg-white/20 transition-colors border border-white/5 inline-block">Manage Menu</a>
                 </div>
             </div>
         </div>
