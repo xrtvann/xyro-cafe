@@ -50,9 +50,9 @@
                     </li>
                     @if(in_array(Auth::user()->role, ['owner', 'kasir']))
                     <li>
-                        <a href="#" class="flex items-center justify-between px-3 py-2 rounded-lg text-white/60 hover:bg-white/5 hover:text-white transition-colors">
+                        <a href="{{ route('admin.pos.index') }}" class="flex items-center justify-between px-3 py-2 rounded-lg {{ request()->routeIs('admin.pos.*') ? 'bg-white/10 text-white font-medium' : 'text-white/60 hover:bg-white/5 hover:text-white transition-colors' }}">
                             <div class="flex items-center">
-                                <span class="material-symbols-outlined text-[18px] mr-3 text-white/50">point_of_sale</span>
+                                <span class="material-symbols-outlined text-[18px] mr-3 {{ request()->routeIs('admin.pos.*') ? 'text-white' : 'text-white/50' }}">point_of_sale</span>
                                 <span class="text-[13px]">POS Cashier</span>
                             </div>
                         </a>
