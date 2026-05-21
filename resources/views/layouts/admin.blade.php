@@ -94,6 +94,14 @@
                             </div>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{ route('admin.category.index') }}" class="flex items-center justify-between px-3 py-2 rounded-lg {{ request()->routeIs('admin.category.*') ? 'bg-white/10 text-white font-medium' : 'text-white/60 hover:bg-white/5 hover:text-white transition-colors' }}">
+                            <div class="flex items-center">
+                                <span class="material-symbols-outlined text-[18px] mr-3 {{ request()->routeIs('admin.category.*') ? 'text-white' : 'text-white/50' }}">category</span>
+                                <span class="text-[13px]">Category Catalog</span>
+                            </div>
+                        </a>
+                    </li>
                     @endif
                 </ul>
             </div>

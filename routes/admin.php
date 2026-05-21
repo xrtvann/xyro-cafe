@@ -1,12 +1,24 @@
 <?php
 
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\MenuController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
+    // Category Management (Owner Only)
+    Route::get('/dashboard/category/search', [CategoryController::class, 'search'])->name('admin.category.search');
+    Route::get('/dashboard/category', [CategoryController::class, 'index'])->name('admin.category.index');
+    Route::get('/dashboard/category/create', [CategoryController::class, 'create'])->name('admin.category.create');
+    Route::post('/dashboard/category', [CategoryController::class, 'store'])->name('admin.category.store');
+    Route::get('/dashboard/category/{category}/edit', [CategoryController::class, 'edit'])->name('admin.category.edit');
+    Route::put('/dashboard/category/{category}', [CategoryController::class, 'update'])->name('admin.category.update');
+    Route::delete('/dashboard/category/{category}', [CategoryController::class, 'destroy'])->name('admin.category.destroy');
+    Route::post('/dashboard/category/{category}/restore', [CategoryController::class, 'restore'])->withTrashed()->name('admin.category.restore');
+    Route::delete('/dashboard/category/{category}/force', [CategoryController::class, 'forceDelete'])->withTrashed()->name('admin.category.forceDelete');
+
     // Menu Management (Owner Only)
     Route::get('/dashboard/menu/search', [MenuController::class, 'search'])->name('admin.menu.search');
     Route::get('/dashboard/menu', [MenuController::class, 'index'])->name('admin.menu.index');
