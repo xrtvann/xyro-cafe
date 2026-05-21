@@ -3,11 +3,16 @@
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\StockController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
+    // Stock Overview (Owner Only)
+    Route::get('/dashboard/stock', [StockController::class, 'index'])->name('admin.stock.index');
+    Route::put('/dashboard/stock/{product}', [StockController::class, 'update'])->name('admin.stock.update');
+
     // Category Management (Owner Only)
     Route::get('/dashboard/category/search', [CategoryController::class, 'search'])->name('admin.category.search');
     Route::get('/dashboard/category', [CategoryController::class, 'index'])->name('admin.category.index');

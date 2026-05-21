@@ -78,9 +78,9 @@
                 <p class="px-3 text-[10px] font-bold uppercase tracking-[0.2em] text-white/30 mb-3">Inventory</p>
                 <ul class="space-y-1">
                     <li>
-                        <a href="#" class="flex items-center justify-between px-3 py-2 rounded-lg text-white/60 hover:bg-white/5 hover:text-white transition-colors">
+                        <a href="{{ route('admin.stock.index') }}" class="flex items-center justify-between px-3 py-2 rounded-lg {{ request()->routeIs('admin.stock.*') ? 'bg-white/10 text-white font-medium' : 'text-white/60 hover:bg-white/5 hover:text-white transition-colors' }}">
                             <div class="flex items-center">
-                                <span class="material-symbols-outlined text-[18px] mr-3 text-white/50">inventory_2</span>
+                                <span class="material-symbols-outlined text-[18px] mr-3 {{ request()->routeIs('admin.stock.*') ? 'text-white' : 'text-white/50' }}">inventory_2</span>
                                 <span class="text-[13px]">Stock Overview</span>
                             </div>
                         </a>
