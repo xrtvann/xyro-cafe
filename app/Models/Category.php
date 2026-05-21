@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $table = 'categories';
     protected $primaryKey = 'id';
@@ -21,8 +22,6 @@ class Category extends Model
         'is_active',
     ];
 
-    public const UPDATED_AT = null;
-
     protected $casts = [
         'is_active' => 'boolean',
         'created_at' => 'datetime',
@@ -31,5 +30,10 @@ class Category extends Model
     public function products()
     {
         return $this->hasMany(Product::class);
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
     }
 }

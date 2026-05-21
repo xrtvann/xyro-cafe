@@ -125,14 +125,14 @@ class MenuController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
-        return redirect()->route('admin.menu.index')->with('success', 'Menu successfully moved to trash!');
+        return back()->with('success', 'Menu successfully moved to trash!');
     }
 
     public function restore($slug)
     {
         $product = Product::withTrashed()->where('slug', $slug)->firstOrFail();
         $product->restore();
-        return redirect()->route('admin.menu.index')->with('success', 'Menu successfully restored!');
+        return back()->with('success', 'Menu successfully restored!');
     }
 
     public function forceDelete($slug)
@@ -146,6 +146,6 @@ class MenuController extends Controller
         
         $product->forceDelete();
         
-        return redirect()->route('admin.menu.index')->with('success', 'Menu permanently deleted!');
+        return back()->with('success', 'Menu permanently deleted!');
     }
 }
