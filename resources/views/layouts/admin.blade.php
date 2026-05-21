@@ -57,6 +57,16 @@
                             </div>
                         </a>
                     </li>
+                    @if(Auth::user()->role === 'owner')
+                    <li>
+                        <a href="{{ route('admin.staff.index') }}" class="flex items-center justify-between px-3 py-2 rounded-lg {{ request()->routeIs('admin.staff.*') ? 'bg-white/10 text-white font-medium' : 'text-white/60 hover:bg-white/5 hover:text-white transition-colors' }}">
+                            <div class="flex items-center">
+                                <span class="material-symbols-outlined text-[18px] mr-3 {{ request()->routeIs('admin.staff.*') ? 'text-white' : 'text-white/50' }}">groups</span>
+                                <span class="text-[13px]">Staff Members</span>
+                            </div>
+                        </a>
+                    </li>
+                    @endif
                     @endif
                     @if(Auth::user()->role === 'customer')
                     <li>
@@ -117,14 +127,6 @@
                             <div class="flex items-center">
                                 <span class="material-symbols-outlined text-[18px] mr-3 text-white/50">monitoring</span>
                                 <span class="text-[13px]">Financial Reports</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" class="flex items-center justify-between px-3 py-2 rounded-lg text-white/60 hover:bg-white/5 hover:text-white transition-colors">
-                            <div class="flex items-center">
-                                <span class="material-symbols-outlined text-[18px] mr-3 text-white/50">groups</span>
-                                <span class="text-[13px]">Staff Members</span>
                             </div>
                         </a>
                     </li>
