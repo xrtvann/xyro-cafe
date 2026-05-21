@@ -9,9 +9,14 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
-    // Stock Overview (Owner Only)
+    // Stock Overview (Owner & Kasir)
     Route::get('/dashboard/stock', [StockController::class, 'index'])->name('admin.stock.index');
     Route::put('/dashboard/stock/{product}', [StockController::class, 'update'])->name('admin.stock.update');
+
+    // POS Cashier (Owner & Kasir)
+    Route::get('/dashboard/pos', [\App\Http\Controllers\Admin\PosController::class, 'index'])->name('admin.pos.index');
+    Route::post('/dashboard/pos/checkout', [\App\Http\Controllers\Admin\PosController::class, 'store'])->name('admin.pos.store');
+    Route::get('/dashboard/pos/receipt/{order}', [\App\Http\Controllers\Admin\PosController::class, 'receipt'])->name('admin.pos.receipt');
 
     // Category Management (Owner Only)
     Route::get('/dashboard/category/search', [CategoryController::class, 'search'])->name('admin.category.search');
