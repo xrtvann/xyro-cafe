@@ -39,5 +39,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/dashboard/menu/{product}', [MenuController::class, 'destroy'])->name('admin.menu.destroy');
     Route::post('/dashboard/menu/{product}/restore', [MenuController::class, 'restore'])->withTrashed()->name('admin.menu.restore');
     Route::delete('/dashboard/menu/{product}/force', [MenuController::class, 'forceDelete'])->withTrashed()->name('admin.menu.forceDelete');
-});
 
+    // STAFF MANAGEMENT (Owner Only)
+    Route::middleware(['role:owner'])->group(function () {
+        Route::get('/dashboard/staff', [\App\Http\Controllers\Admin\StaffController::class, 'index'])->name('admin.staff.index');
+        Route::post('/dashboard/staff', [\App\Http\Controllers\Admin\StaffController::class, 'store'])->name('admin.staff.store');
+        Route::put('/dashboard/staff/{id}', [\App\Http\Controllers\Admin\StaffController::class, 'update'])->name('admin.staff.update');
+        Route::delete('/dashboard/staff/{id}', [\App\Http\Controllers\Admin\StaffController::class, 'destroy'])->name('admin.staff.destroy');
+    });
+});

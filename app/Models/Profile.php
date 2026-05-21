@@ -18,6 +18,7 @@ class Profile extends Authenticatable
     protected $fillable = [
         'id',
         'full_name',
+        'email',
         'phone',
         'role',
     ];
